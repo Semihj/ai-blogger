@@ -1,6 +1,6 @@
 "use client";
 
-import { UserButton, UserProfile } from "@clerk/nextjs";
+import {  UserProfile } from "@clerk/nextjs";
 import React from "react";
 
 export default function Profile() {

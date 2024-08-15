@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils'
 
-import { LayoutDashboard,House, FileStack, Settings, UserPen, BadgePlus } from 'lucide-react'
+import { LayoutDashboard,House, FileStack, Settings, UserPen, BadgePlus,NotebookTabs } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
@@ -37,6 +37,12 @@ export default function Sidebar() {
             icon:FileStack,
             color:"text-blue-600 "
 
+        },
+        {
+            label:"Bookmarks",
+            href:"/bookmarks",
+            icon:NotebookTabs,
+            color:"text-gray-500"
         },
       
         {

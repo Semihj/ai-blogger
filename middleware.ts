@@ -6,6 +6,7 @@ const isProtectedRoute = createRouteMatcher([
   '/templates',
   '/create',
   '/settings',
+  '/bookmarks(.*)'
   
 ]);
 

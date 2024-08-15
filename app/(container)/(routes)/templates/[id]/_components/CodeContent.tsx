@@ -10,7 +10,6 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 
 export default function CodeContent({contentCode}:{contentCode:any}) {
-  const [code, setCode] = useState<string>("");
   const [isCopied,setIsCopied] = useState(false)
    const {toast} = useToast()
   const handleCopy = () => {

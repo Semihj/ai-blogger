@@ -1,8 +1,11 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { nanoid } from "nanoid";
+import { bookmarkType, dataField } from "@/types";
 
 /* Queries */
+
+/* Template Queries */
 
 export const getTemplatesByUserId = query({
   args: { userId: v.string() },
@@ -99,17 +102,34 @@ export const getDatesOfTemplates = query({
   },
 });
 
+/* Bookmark Queries */
+
 export const getBookMarks = query({
   args: { userId: v.string() },
   handler: async (ctx, args) => {
-    const bookMarks = await getTemplatesByUserId(ctx, { userId: args.userId });
-    if (bookMarks) {
-      return bookMarks?.bookMarks;
+    const db = await getTemplatesByUserId(ctx, { userId: args.userId });
+    if (db) {
+      return db?.bookMarks?.reverse();
     } else {
-      return {"error":"There is No bookMarks field"}
+      return {error:"There is No bookMarks field"}
     }
   },
 });
+
+
+export const searchBookmarks = query({
+  args: { title: v.string(),userId:v.string() },
+  handler: async (ctx,args) => {
+    const bookmarks:any = await getBookMarks(ctx,{
+      userId:args.userId
+    })
+    const sort = bookmarks?.map((bookmark:any) => {
+      if(bookmark.title.includes(args.title)) return bookmark
+    })
+    return sort
+  },
+});
+
 
 export const getBookMarkByTitle = query({
   args:{
@@ -120,7 +140,7 @@ export const getBookMarkByTitle = query({
   handler:async (ctx,args) => {
     const bookMarks = await getTemplatesByUserId(ctx,{userId:args.userId}).then((data) => data?.bookMarks );
     const bookMark = bookMarks?.find((data) => data?.title === args.title)
-    return bookMark
+    return bookMark ? bookMark : false
   }
 })
 
@@ -132,18 +152,28 @@ export const isInBookMark = query({
   },
   handler:async (ctx,args) => {
     const bookMark = await getBookMarkByTitle(ctx,{userId:args.userId,title:args.title})
-    const isSame = bookMark?.templates.map((template) => template.id === args.id)
-    if(isSame) {
-      return true
-    } else {
-      return false
+    if(bookMark){
+      const isSame = bookMark?.templates.find((template) => template === args.id)
+    return isSame ? true : false
     }
-  }
-})
+    return "There is no Bookmark with this title"
+}})
+
+
+export const isBookMarkExists = query({
+  args:{
+    userId:v.string(),
+    title:v.string(),
+  },
+  handler:async (ctx,args) => {
+    const bookMark = await getBookMarkByTitle(ctx,{userId:args.userId,title:args.title})
+    return bookMark ? true : false
+}})
 
 
 /* Mutations */
-
+ 
+   /* BookMark Mutation */
 
 export const addTemplateToBookMark = mutation({
   args:{userId:v.string(),
@@ -151,17 +181,17 @@ export const addTemplateToBookMark = mutation({
     template:v.any(),
   },
   handler:async (ctx,args) => {
-    const bookMarkField = await getBookMarks(ctx,{userId:args.userId})
-    const getId = await getTemplatesByUserId(ctx,{userId:args.userId})
+    const bookMarkField:any = await getBookMarks(ctx,{userId:args.userId})
+    const getId:any = await getTemplatesByUserId(ctx,{userId:args.userId})
     const isSame = await isInBookMark(ctx,{userId:args.userId,title:args.title,id:args.template?.id})
     if(isSame) {
-      return "Already In BookMark"
+      return {error:"This Template Already Exists In This Bookmark"} 
     } else {
-       const updatedBookmarks = bookMarkField?.map((bookmark) => {
+       const updatedBookmarks = bookMarkField?.map((bookmark:bookmarkType) => {
       if (bookmark.title === args.title) {
         return {
           ...bookmark,
-          templates:[...bookmark.templates,args.template],
+          templates:[...bookmark.templates,args.template?.id],
         };
       }
       return bookmark;
@@ -170,24 +200,92 @@ export const addTemplateToBookMark = mutation({
     await ctx.db.patch(getId?._id, {...getId, bookMarks: updatedBookmarks });
     return updatedBookmarks
     }
-   
+   ;
     
   }
 })
+
+
+export const removeTemplateFromBookMark = mutation({
+  args:{
+    userId:v.string(),
+    title:v.string(),
+    templateId:v.string(),
+  },
+  handler: async (ctx,args) => {
+    const getId:any = await getTemplatesByUserId(ctx,{userId:args.userId})
+    const bookmarks:any = await getBookMarks(ctx,{
+      userId:args.userId
+    })
+    const bookmark:any = await getBookMarkByTitle(ctx,{
+      userId:args.userId,
+      title:args.title
+    })
+    const otherBookmarks:any = await bookmarks?.filter((data:bookmarkType) => data.title !== args.title )
+    const updatedTemplates = await bookmark?.templates.filter((data:string) => data !== args.templateId )
+    const updatedBookmark = {...bookmark,templates:updatedTemplates}
+      
+    otherBookmarks.push(updatedBookmark)
+    console.log(otherBookmarks);
+    
+    await ctx.db.patch(getId?._id, {...getId, bookMarks:otherBookmarks })
+    return updatedBookmark
+    
+
+  }
+})
+
+
+export const removeFromAllBookmarks = mutation({
+  args: { userId: v.string(), templateId: v.string() },
+  handler: async (ctx, args) => {
+    const bookMarks:any = await getBookMarks(ctx, {
+      userId: args.userId,
+    });
+
+    const bookmarksToUpdate:any = [];
+
+    await bookMarks?.forEach(async (bookmark:bookmarkType) => {
+      if (bookmark.templates.includes(args.templateId)) {
+        bookmarksToUpdate.push({
+          userId: args.userId,
+          title: bookmark.title,
+          templateId: args.templateId,
+        });
+      }
+    });
+    
+    for (const bookmark of bookmarksToUpdate) {
+      await removeTemplateFromBookMark(ctx, bookmark);
+    }
+  },
+});
+
+
 
 export const addBookMark = mutation({
   args:{userId:v.string(),
     bookMark:v.object({
       title:v.string(),
-      templates:v.array(v.any()),
       creationTime:v.number(),
       description:v.optional(v.string())
     })
   },
   handler:async (ctx,args) => {
+
+    const isExist = await isBookMarkExists(ctx,{userId:args.userId,title:args.bookMark.title})
+
+    if(isExist) {
+      return  {
+        title:`You Already Have a Bookmark Named '${args.bookMark.title}' `,
+        isError:true
+
+      }
+    }
+    
     const existingTemplate:any = await getTemplatesByUserId(ctx,{userId:args.userId})
 
-    const newBookMarks = [...existingTemplate?.bookMarks,{id:nanoid(),...args.bookMark}]
+    const newBookMarks = [...existingTemplate?.bookMarks,{id:nanoid(),templates:[],...args.bookMark}]
     const newData = {
       userId:args.userId,
       templates:existingTemplate?.templates,
@@ -195,8 +293,28 @@ export const addBookMark = mutation({
     }
 
     await ctx.db.replace(existingTemplate._id, newData);
+    return  {
+      title:`'${args.bookMark.title}' Bookmark Created`,
+      isError:false
+
+    }
   }
 })
+
+export const deleteBookMark = mutation({
+  args:{userId:v.string() ,bookMarkId:v.string()},
+  handler: async (ctx,args) => {
+    const bookmarks:any = await getBookMarks(ctx,{userId:args.userId})
+    const getField:any = await getTemplatesByUserId(ctx,{userId:args.userId})
+   const updatedBookmarks =  await  bookmarks?.filter((bookmark:bookmarkType) => bookmark.id !== args.bookMarkId)
+
+    await ctx.db.patch(getField?._id,{...getField,bookMarks:updatedBookmarks})
+    return bookmarks
+  }
+})
+
+/* Template Mutations */
+
 
 export const addTemplate = mutation({
   args: {
@@ -245,16 +363,22 @@ export const addTemplate = mutation({
   },
 });
 
+
+
 export const deleteTemplate = mutation({
   args: { userId: v.string(), templateId: v.string() },
   handler: async (ctx, args) => {
+   
+    await removeFromAllBookmarks(ctx,{
+      userId:args.userId,
+      templateId:args.templateId
+    })
     const userTemplates = await getTemplatesByUserId(ctx, {
       userId: args.userId,
     });
     if (!userTemplates) {
       throw new Error("User not found");
     }
-
     const newTemplates = userTemplates.templates.filter(
       (template: any) => template.id !== args.templateId
     );
