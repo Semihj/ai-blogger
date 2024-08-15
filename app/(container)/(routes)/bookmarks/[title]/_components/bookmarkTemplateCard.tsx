@@ -9,52 +9,52 @@ import { api } from "@/convex/_generated/api";
 import { useClerk } from "@clerk/clerk-react";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Bookmark from "./bookmark";
 import { FolderPlus } from "lucide-react";
-import CreateBookMark from "../../bookmarks/_components/create-book-mark";
-import { sortByCreationTime } from "@/lib/helpers";
-import { bookmarkType, bookmarkTypes } from "@/types";
 import { toast } from "@/components/ui/use-toast";
+import CreateBookMark from "../../_components/create-book-mark";
+import { bookmarkType } from "@/types";
+import Bookmark from "../../../templates/_components/bookmark";
 
+export default function BookmarkTemplateCard({
+  templateId,
+}: {
+  templateId: any;
+}) {
 
-
-export default function Card({ template }: { template: any }) {
-  const templateJson = JSON.parse(template.jsonValue);
-  const { user }:any = useClerk();
+  
+  const { user }: any = useClerk();
+  const template:any = useQuery(api.functions.getTemplateById, {
+    userId: user?.id,
+    templateId: templateId,
+  });
+  const templateJson:any = template ? JSON.parse(template?.jsonValue) : null;
   const deleteTemp = useMutation(api.functions.deleteTemplate);
-  const bookMarks:any = useQuery(api.functions.getBookMarks, {
+  const bookMarks: any = useQuery(api.functions.getBookMarks, {
     userId: user?.id,
   });
 
-
   const handleDelete = async () => {
- /*   const remove = await removeFromBookmarks({
-        userId:user?.id,
-        templateId:template?.id
-      })
- */
+   
     try {
-     
-      const data = await deleteTemp({
-      userId: user?.id,
-      templateId: template?.id,
-    });
+       await deleteTemp({
+        userId: user?.id,
+        templateId: template?.id,
+      });
       toast({
-        title:`Template deleted successfully `
-      })
+        title: `Template deleted successfully `,
+      });
     } catch (error) {
       console.log(error);
-      
     }
-    
   };
 
   return (
     <div className="w-max h-max lg:min-h-[200px] min-h-[200px] bg-gray-800 rounded-lg px-2 py-5 flex flex-col justify-between text-white">
+        {template ? 
+        <div className="w-full h-full">
       <Link
         href={`/templates/${template?.id}`}
         className="flex  px-2 border-b-2 pb-2  "
@@ -80,22 +80,27 @@ export default function Card({ template }: { template: any }) {
                   {templateJson?.title}{" "}
                 </h1>
                 <div className="w-full h-full flex flex-col overflow-y-scroll gap-3 focus:outline-none ">
-                  {bookMarks?.map((bookmark:bookmarkType,index:number) => (
-                    <Bookmark key={index} user={user} template={template} bookmark={bookmark} />
+                  {bookMarks?.map((bookmark: bookmarkType, index: number) => (
+                    <Bookmark
+                      key={index}
+                      user={user}
+                      template={template}
+                      bookmark={bookmark}
+                    />
                   ))}
-             <Sheet>   
-            <SheetTrigger><div className="p-2 flex gap-2"> 
-             <FolderPlus className="" />
-              <h1>Create a Bookmark</h1> 
-              </div> 
-            
-              </SheetTrigger>
-              <SheetContent side={"right"} >
-                <CreateBookMark/>
-              </SheetContent>
-               </Sheet> 
-               </div>
-               </div>
+                  <Sheet>
+                    <SheetTrigger>
+                      <div className="p-2 flex gap-2">
+                        <FolderPlus className="" />
+                        <h1>Create a Bookmark</h1>
+                      </div>
+                    </SheetTrigger>
+                    <SheetContent side={"right"}>
+                      <CreateBookMark />
+                    </SheetContent>
+                  </Sheet>
+                </div>
+              </div>
             </SheetContent>
           </Sheet>
           <MdDelete
@@ -103,7 +108,8 @@ export default function Card({ template }: { template: any }) {
             onClick={() => handleDelete()}
           />
         </div>
-      </div>
+     </div> </div>: 
+      ""}
     </div>
   );
 }
