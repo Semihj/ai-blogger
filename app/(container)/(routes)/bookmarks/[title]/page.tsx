@@ -7,8 +7,8 @@ import React from 'react'
 
 export default function BookMarks() {
 
- const params = useParams()
- const {user} = useClerk()
+ const params:any = useParams()
+ const {user}:any = useClerk()
  const bookMark = useQuery(api.functions.getBookMarkByTitle,{
     userId:user?.id,
     title:params.title
