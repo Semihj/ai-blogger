@@ -16,10 +16,10 @@ import { toast } from "@/components/ui/use-toast";
 import Loading from "@/components/auth/loading";
 
 export default function CreateBookMark() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<any>({
     creationTime: Date.now(),
   });
-  const { user } = useClerk();
+  const { user }:any = useClerk();
 
   const [isLoading, setIsLoading] = useState(false);
 
