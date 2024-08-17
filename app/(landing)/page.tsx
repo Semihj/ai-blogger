@@ -32,7 +32,7 @@ export default function LandingPage() {
             </p>
 </div>
     <div className="mt-2 md:mt-5">
-     <Link href={"/templates"} >
+     <Link href={"/create"} >
      <Button className="md:h-10 md:rounded-md md:px-8 md:py-8 md:text-lg ">Try It Now</Button>
      </Link> 
     </div>
