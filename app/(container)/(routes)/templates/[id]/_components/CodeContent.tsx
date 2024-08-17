@@ -24,7 +24,7 @@ export default function CodeContent({contentCode}:{contentCode:any}) {
   useEffect(() => {
     if(isCopied) {
       toast({
-        description:"Copied To Clipboard"
+        title:"Copied To Clipboard"
       })
       setTimeout(() => {
         setIsCopied(false)
@@ -32,7 +32,6 @@ export default function CodeContent({contentCode}:{contentCode:any}) {
     }
   }, [isCopied])
   
-  console.log(contentCode);
   
   
  

@@ -9,7 +9,6 @@ import { api } from "@/convex/_generated/api";
 import { useClerk } from "@clerk/clerk-react";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
@@ -32,14 +31,10 @@ export default function Card({ template }: { template: any }) {
 
 
   const handleDelete = async () => {
- /*   const remove = await removeFromBookmarks({
-        userId:user?.id,
-        templateId:template?.id
-      })
- */
+
     try {
      
-      const data = await deleteTemp({
+       await deleteTemp({
       userId: user?.id,
       templateId: template?.id,
     });

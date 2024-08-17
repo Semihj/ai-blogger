@@ -10,7 +10,6 @@ export default function Profile() {
         <UserProfile />
       </div>
      
-      {/*  <h1 className='text-2xl md:text-4xl font-bold text-white text-center  ' ><span className='text-green-500 ' >Profile</span> Page Is Currently Under Development</h1> */}
     </div>
   );
 }

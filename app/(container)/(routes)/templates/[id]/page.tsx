@@ -20,7 +20,6 @@ export default function TemplatePage() {
         userId:user?.id,
         templateId:params?.id
     })
-    console.log(template);
     
   return (
     <div className='w-full h-full flex flex-col md:px-4 ' >

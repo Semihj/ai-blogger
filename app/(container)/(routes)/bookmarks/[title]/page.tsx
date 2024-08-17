@@ -16,7 +16,6 @@ export default function BookMarks() {
     title:params.title
  })
  
-console.log(bookMark);
  
 
   return (

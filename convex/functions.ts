@@ -226,7 +226,6 @@ export const removeTemplateFromBookMark = mutation({
     const updatedBookmark = {...bookmark,templates:updatedTemplates}
       
     otherBookmarks.push(updatedBookmark)
-    console.log(otherBookmarks);
     
     await ctx.db.patch(getId?._id, {...getId, bookMarks:otherBookmarks })
     return updatedBookmark

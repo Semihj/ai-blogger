@@ -25,7 +25,6 @@ export default function Bookmark({
     title: bookmark.title,
     id: template?.id,
   });
-  console.log(isBookMarked);
 
   const addToBookMark = async ({ title }: { title: string }) => {
     const data = await addTemplate({
@@ -39,12 +38,11 @@ export default function Bookmark({
         variant: "destructive",
       });
     }
-    console.log(data);
   };
   
   const removeFromBookmark = async () => {
     try {
-      const data = await removeTemplate({
+      await removeTemplate({
         userId:user?.id,
         title:bookmark.title,
         templateId:template?.id

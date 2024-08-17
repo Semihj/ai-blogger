@@ -4,7 +4,6 @@ import Image from 'next/image'
 import React from 'react'
 import landing_img from "../../public/ai-blog.png"
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 import Typewriter from 'typewriter-effect';
 import Link from 'next/link'
 
@@ -16,7 +15,7 @@ export default function LandingPage() {
           <div className="w-full h-full flex items-start md:px-20  justify-center flex-col">
             <div className="flex flex-col w-full h-full">
             <h1 className='lg:text-3xl text-lg font-semibold' >
-            Your Friendly Neighborhoord <span className='text-orange-500' >
+            Your Friendly Neighborhood <span className='text-orange-500' >
               <Typewriter
               options={{
                 strings:["AI-BLOGGER","CONTENT CRAFTER","AI AUTHOR"],

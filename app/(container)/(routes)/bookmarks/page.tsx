@@ -22,7 +22,6 @@ const getBookMarks = useQuery(api.functions.getBookMarks,{
   })
 
   
-console.log(searchText);
 
  
 
@@ -62,7 +61,6 @@ console.log(searchText);
     setBookMarks(getBookMarks)
   }, [getBookMarks])
   
-console.log(bookMarks);
 
 
   

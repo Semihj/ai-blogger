@@ -1,17 +1,9 @@
-import React from 'react'
+import React from "react";
 
-
-
-
-
-
-export default function TemplateLayout({children}:{children:React.ReactNode}) {
-
-
-
-  return (
-    <div className='w-full  ' >{children} </div>
-  )
+export default function TemplateLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <div className="w-full  ">{children} </div>;
 }
-
-

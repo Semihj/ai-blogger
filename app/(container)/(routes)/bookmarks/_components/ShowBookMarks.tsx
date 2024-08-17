@@ -13,7 +13,6 @@ import React from "react";
 export default function ShowBookMarks({ bookMarks }: { bookMarks: any }) {
   const { user }:any = useClerk();
   const deleteBookmark = useMutation(api.functions.deleteBookMark);
-  console.log(bookMarks);
   
   const handleDelete = async ({ bookmark }: { bookmark: any }) => {
     try {
