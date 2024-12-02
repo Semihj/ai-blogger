@@ -174,14 +174,14 @@ export default function Create() {
             <input
               type="text"
               placeholder="Best football players"
-              className="px-3 py-2 w-[80%] lg:w-full rounded-md focus:outline-none text-black "
+              className="px-4 py-5 w-[80%] lg:w-full rounded-md focus:outline-none text-black "
               value={inputValue} onChange={(e) => {
                 setInputValue(e.target.value)    
                 router.push(`/create?search=${e.target.value}`)
                   }}
                   
             />
-          <Button> <SendHorizontal className="text-[25px] "  />
+          <Button> <SendHorizontal size={50}  />
          </Button>  </form>
         </div>
       )}

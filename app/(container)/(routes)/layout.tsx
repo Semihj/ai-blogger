@@ -1,6 +1,5 @@
 import Sidebar from "@/app/(container)/_components/sidebar";
 import type { Metadata } from "next";
-import Navbar from "../(landing)/_components/navbar";
 
 export const metadata: Metadata = {
   title: "Dashboard | Genius",
