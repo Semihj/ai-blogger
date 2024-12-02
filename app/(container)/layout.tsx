@@ -1,5 +1,6 @@
 import Sidebar from "@/app/(container)/_components/sidebar";
 import type { Metadata } from "next";
+import Navbar from "./_components/navbar";
 
 export const metadata: Metadata = {
   title: "Dashboard | Genius",
@@ -18,6 +19,7 @@ export default async function DashboardLayout({
       </div>
 
       <div className="flex flex-col w-full min-h-full md:pl-72 ">
+        <Navbar/>
         {children}
       </div>
     </div>

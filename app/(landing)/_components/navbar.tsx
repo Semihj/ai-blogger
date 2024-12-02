@@ -5,7 +5,7 @@ import React from 'react'
 import logo from "../../../public/logo.png"
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { useClerk } from '@clerk/clerk-react'
+import { useClerk, UserButton } from '@clerk/clerk-react'
 
 export default function Navbar() {
 
@@ -30,7 +30,10 @@ export default function Navbar() {
         </Link>
        </div>
        :
-       ""}
+       <div className="flex  justify-end">
+          <UserButton 
+           />
+        </div> }
     </div>
   )
 }
