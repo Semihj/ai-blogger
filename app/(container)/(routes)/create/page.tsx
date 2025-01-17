@@ -61,11 +61,14 @@ export default function Create() {
         },
       });
       setIsLoading(false);
+      console.log(newBlog);
+      
       setTemplates({
         code: null,
         jsonValue: null,
       });
       setContentJson(null);
+      
       const blog = newBlog[newBlog.length - 1];
 
       router.push(`/templates/${blog?.id}`);

@@ -54,11 +54,13 @@ export const createTemplateField = mutation({
     }
 
     try {
+      const id = nanoid()
+
       const newTemplates = await ctx.db.insert("blogTemplates", {
         userId: args.userId,
         templates: [
           {
-            id: nanoid(),
+            id: id,
             code: args.templates[0].code,
             jsonValue: args.templates[0].jsonValue,
             creationTime: Date.now(),
@@ -66,7 +68,9 @@ export const createTemplateField = mutation({
         ],
         bookMarks: [],
       });
-      return newTemplates; // Return the inserted templates
+
+     
+      return [{id:id}]; // Return the inserted templates
     } catch (error) {
       // Handle the error, e.g., log it or throw a custom error
       console.error("Error creating template:", error);
@@ -335,12 +339,14 @@ export const addTemplate = mutation({
           {
             code: args.newTemplate.code,
             jsonValue: args.newTemplate.jsonValue,
+
           },
         ],
       });
-      return createdTemplate;
+      
+      return createdTemplate ;
     }
-
+   
     const updatedTemplates = [
       ...existingTemplate.templates,
       {

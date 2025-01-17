@@ -24,7 +24,6 @@ const generationConfig = {
 
 
 export const handleGetContent = async ({text}:{text:any}) => {
-  console.log(text);
   const chatSession = model.startChat({
     generationConfig,
  // safetySettings: Adjust safety settings
@@ -33,7 +32,6 @@ export const handleGetContent = async ({text}:{text:any}) => {
   });
 
   const result = await chatSession.sendMessage(text);
-  console.log(result.response.text());
       return result.response.text();
 }
 
@@ -47,7 +45,6 @@ const codeGenarationConfig = {
 }
 
 export const handleGetCode = async ({json}:{json:any}) => {
-  console.log(json);
   
   const chatSession = model.startChat({
     generationConfig:codeGenarationConfig,
@@ -56,6 +53,5 @@ export const handleGetCode = async ({json}:{json:any}) => {
   });
 
   const result = await chatSession.sendMessage(JSON.stringify(json));
-  console.log(result.response.text());
   return result.response.text()
 }

@@ -37,7 +37,6 @@ const getBookMarks = useQuery(api.functions.getBookMarks,{
         }
       }
     )
-      console.log(sort);
       setBookMarks(sort)
       } else {
         setBookMarks(getBookMarks)

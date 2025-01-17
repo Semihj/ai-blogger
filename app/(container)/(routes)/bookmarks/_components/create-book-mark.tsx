@@ -28,9 +28,10 @@ export default function CreateBookMark() {
   const handleAddBookMarks = async () => {
     setIsLoading(true);
     const data = await addBookMark({ userId: user?.id, bookMark: formData });
-    console.log(data);
     if (data) {
       setIsLoading(false);
+      console.log(data);
+      
       if (data.isError) {
         return toast({
           title: data.title,
