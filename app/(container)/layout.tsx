@@ -5,6 +5,9 @@ import Navbar from "./_components/navbar";
 export const metadata: Metadata = {
   title: "Dashboard | Genius",
   description: "AI SaaS Platform.",
+  verification: {
+    google: "g3-BCfDeRPf6XBNGCbsB3wcxkkaC4DMGoRzZYSmlhEo"
+  }
 };
 
 export default async function DashboardLayout({
