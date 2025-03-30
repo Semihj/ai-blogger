@@ -10,7 +10,7 @@ export const metadata = {
   description:
     "AI Blogger will Unlock your content marketing potential. Our AI writing tool helps you create compelling blog posts that resonate with your audience.",
    verification: {
-    google: "g3-BCfDeRPf6XBNGCbsB3wcxkkaC4DMGoRzZYSmlhEo"
+    google: "UApSZeR33HLw88rPsKyPEPQPVAdktXiWdNGi2fuKULU"
   }
 };
 
