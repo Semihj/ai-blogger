@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: "AI SaaS Platform.",
   robots:"noindex",
   verification: {
-    google: "g3-BCfDeRPf6XBNGCbsB3wcxkkaC4DMGoRzZYSmlhEo"
+    google: "UApSZeR33HLw88rPsKyPEPQPVAdktXiWdNGi2fuKULU"
   }
 };
 
