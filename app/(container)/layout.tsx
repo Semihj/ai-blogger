@@ -5,6 +5,7 @@ import Navbar from "./_components/navbar";
 export const metadata: Metadata = {
   title: "Dashboard | Genius",
   description: "AI SaaS Platform.",
+  robots:"noindex",
   verification: {
     google: "g3-BCfDeRPf6XBNGCbsB3wcxkkaC4DMGoRzZYSmlhEo"
   }
