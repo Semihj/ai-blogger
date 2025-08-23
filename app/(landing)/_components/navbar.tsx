@@ -1,8 +1,6 @@
 "use client";
 
-import Image from 'next/image'
 import React from 'react'
-import logo from "../../../public/logo.png"
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { useClerk, UserButton } from '@clerk/clerk-react'
@@ -10,6 +8,7 @@ import { useClerk, UserButton } from '@clerk/clerk-react'
 export default function Navbar() {
 
   const {user} = useClerk()
+  console.log(user)
 
   return (
     <div className='w-full h-[92px] py-4 md:py-1 border-b-2 flex justify-between  items-center px-4 lg:px-20 ' >

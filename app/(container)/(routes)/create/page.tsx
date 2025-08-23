@@ -117,7 +117,7 @@ export default function Create() {
     try {
       const data: any = await handleGetContent({ text: searchText });
       setTemplates({ ...templates, jsonValue: data });
-
+      console.log(data)
       setContentJson(JSON.parse(data));
     } catch (error) {
       console.log(error);

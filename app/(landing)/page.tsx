@@ -6,9 +6,13 @@ import landing_img from "../../public/ai-blog.png"
 import { Button } from '@/components/ui/button'
 import Typewriter from 'typewriter-effect';
 import Link from 'next/link'
+import Navbar from './_components/navbar'
 
 export default function LandingPage() {
   return (
+    <div className='w-full min-h-full flex flex-col' >
+      <Navbar/>
+
     <div className='w-full h-full flex  md:px-10 px-4 py-5 md:py-2 bg-[#0b051d] text-white ' >
       <div className="flex flex-col w-full h-full items-center justify-center ">
         <div className="flex flex-col md:flex-row w-full gap-3 justify-between h-full md:h-auto items-center  ">
@@ -44,6 +48,6 @@ export default function LandingPage() {
        
         
       </div>
-    </div>
+    </div></div>
   )
 }

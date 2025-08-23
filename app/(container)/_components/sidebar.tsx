@@ -15,15 +15,8 @@ export default function Sidebar() {
 
     const pathname = usePathname()
 
-    const {user} = useClerk()
     const sidebarRoutes = [
-        {
-            label:"Dashboard",
-            href:"/dashboard",
-            icon:House,
-            color:"text-orange-600 "
-
-        },
+     
         {
             label:"Create",
             href:"/create",
@@ -51,13 +44,7 @@ export default function Sidebar() {
             icon:UserPen,
             color:"text-green-500 "
 
-        },  {
-            label:"Settings",
-            href:"/settings",
-            icon:Settings,
-            color:"text-gray-300 "
-
-        },
+        }, 
     ]
 
   return (
