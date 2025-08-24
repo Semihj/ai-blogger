@@ -20,7 +20,7 @@ export default function TemplatePage() {
     <div className='flex flex-col w-full min-h-full  ' >
       <div className="h-20 w-full border-b-2 "></div>
       <div className="p-4 flex gap-2 flex-wrap w-full min-h-full ">
-      {templates?.map((template) => (
+      {templates?.map((template:any) => (
         <div key={template?.id} >
           <Card template={template}/>
         </div>
